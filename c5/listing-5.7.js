@@ -8,7 +8,7 @@ try {
         },
         function modify(err, text) {
             if (err) throw err;
-            return text.replace(/domain\.com/g, 'domain.ru');
+            return text.replace(/domain\.com/g, 'domain.ru').toUpperCase();
         },
         function writeData(err, text) {
             if (err) throw err;
