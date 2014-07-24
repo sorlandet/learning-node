@@ -2,11 +2,12 @@ var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
 
 var app = express();
 
@@ -14,11 +15,23 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+
+
+var session = require('express-session');
+//var VelaStore = require('./tt_modules/penton-connect-vela')(session);
+//var velaOptions = {client: session.Cookie};
+// new VelaStore(velaOptions)
+app.use(session({secret: 'keyboard cat', store: new session.MemoryStore}));
+
+
+
+
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var raven = require('raven');
