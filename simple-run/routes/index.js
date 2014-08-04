@@ -1,14 +1,14 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    'use strict';
     res.render('index', { title: 'Express' });
 });
 
-router.get('/error', function mainHandler(req, res) {
-    'use strict';
+router.get('/error', function mainHandler() {
     throw new Error('Broke!');
 });
 
