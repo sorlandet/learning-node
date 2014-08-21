@@ -55,7 +55,19 @@
     <script type="text/x-handlebars" data-template-name="index">
         <p>There are {{productsCount}} products</p>
         <p>Rendered on {{time}}</p>
-        <img {{bind-attr src='logo'}} alt='logo' />
+
+        {{#each onSale}}
+        <div class="col-sm-4">
+            <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
+            <div class="col-md-7">
+                <h2>{{title}}</h2>
+                <p class="text-muted">{{description}}</p>
+                {{#link-to 'product' this class='btn btn-success'}}
+                    Buy for ${{price}}
+                {{/link-to}} </p>
+            </div>
+        </div>
+        {{/each}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="about">

@@ -12,6 +12,25 @@ App.Router.map(function(){
 
 });
 
+//App.ApplicationAdapter = DS.RESTAdapter.extend({
+//
+//});
+
+App.ApplicationAdapter = DS.FixtureAdapter.extend({
+
+});
+
+
+
+
+// Routes
+
+App.IndexRoute = Ember.Route.extend({
+    model: function(){
+        return this.store.findAll('product');
+    }
+});
+
 App.ProductsRoute = Ember.Route.extend({
     model: function(){
         return this.store.findAll('product');
@@ -21,26 +40,35 @@ App.ProductsRoute = Ember.Route.extend({
 App.ProductRoute = Ember.Route.extend({
     model: function(params){
         console.log(params);
-        return this.store.find('title', params.product_id);
+        return this.store.find('product', params.product_id);
     }
 });
 
-App.IndexController = Ember.Controller.extend({
-    productsCount: 6,
+
+
+
+// Controllers
+
+App.IndexController = Ember.ArrayController.extend({
+//    productsCount: function(){ return this.get('length'); }.property('length'),
+    productsCount: Ember.computed.alias('length'),
     logo: 'static/images/1.jpg',
     time: function(){
         return (new Date()).toDateString();
-    }.property()
+    }.property(),
+    onSale: function(){
+        return this.filterBy('isOnSale', true).slice(0, 3);
+    }.property('@each.isOnSale')
+});
+
+App.ProductsController = Ember.ArrayController.extend({
+    sortProperties: ['title']
 });
 
 
-//App.ApplicationAdapter = DS.RESTAdapter.extend({
-//
-//});
 
-App.ApplicationAdapter = DS.FixtureAdapter.extend({
 
-});
+// Models
 
 App.Product = DS.Model.extend({
     title: DS.attr('string'),
@@ -57,6 +85,11 @@ App.Review = DS.Model.extend({
     product: DS.belongsTo('product')
 });
 
+
+
+
+// Fixtures
+
 App.Product.FIXTURES = [
     {
         id: 1,
@@ -69,7 +102,7 @@ App.Product.FIXTURES = [
     },
     {
         id: 2,
-        title: 'Kindling',
+        title: 'AKindling',
         description: 'bla bla bla',
         price: 249,
         isOnSale: false,
@@ -89,3 +122,5 @@ App.Review.FIXTURES = [
         text: 'review 2 text'
     }
 ];
+
+
