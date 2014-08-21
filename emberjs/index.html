@@ -91,6 +91,15 @@
             <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
         </div>
 
+        <h3>Reviews</h3>
+        <ul>
+            {{#each reviews}}
+                <li>{{text}}</li>
+            {{else}}
+                <li><p class="text-muted"><em>No reviews yet!</em></p> </li>
+            {{/each}}
+        </ul>
+
     </script>
 
 </body>
