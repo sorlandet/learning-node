@@ -5,5 +5,13 @@ var App = Ember.Application.create({
 });
 
 App.Router.map(function(){
-    this.route('about');
+    this.route('about', {path: '/aboutus'});
+});
+
+App.IndexController = Ember.Controller.extend({
+    productsCount: 6,
+    logo: 'static/images/logo.jpg',
+    time: function(){
+        return (new Date()).toDateString();
+    }.property()
 });
