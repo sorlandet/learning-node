@@ -57,17 +57,24 @@
         <p>Rendered on {{time}}</p>
 
         {{#each onSale}}
-        <div class="col-sm-4">
-            <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
-            <div class="col-md-7">
-                <h2>{{title}}</h2>
-                <p class="text-muted">{{description}}</p>
-                {{#link-to 'product' this class='btn btn-success'}}
-                    Buy for ${{price}}
-                {{/link-to}} </p>
-            </div>
-        </div>
+            {{product-details product=this classNames='col-sm-4'}}
         {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="components/product-details">
+
+        <img {{bind-attr src='product.image'}} class='img-thumbnail img-rounded' />
+        <div class="col-md-7">
+            <h2>{{product.title}}</h2>
+            <p class="text-muted">{{product.description}}</p>
+            <span class="label label-warning">
+                {{#link-to 'products.onsale'}}On sale{{/link-to}}
+            </span>
+            {{#if hasReviews}}
+              <p class="text-muted">Read all reviews ({{reviewsCount}}).</p>
+            {{/if}}
+        </div>
+
     </script>
 
     <script type="text/x-handlebars" data-template-name="about">
@@ -91,28 +98,58 @@
         <p class="text-muted">Choose a product from those on the left</p>
     </script>
 
+    <script type="text/x-handlebars" data-template-name="products/onsale">
+        <ul class="list-unstyled">
+            {{#each}} {{product-details product=this}} {{/each}}
+        </ul>
+    </script>
+
     <script type="text/x-handlebars" data-template-name="product">
-        <div class="row">
-            <div class="col-md-7">
-                <h2>{{title}}</h2>
-                <h3 class="text-success">${{price}}</h3>
-                <p class="text-muted">{{description}}</p>
-            </div>
+        <h2>{{title}}</h2>
+
+        {{partial 'old-reviews'}}
+
+        {{render 'reviews' reviews}}
+
+        <div class="col-md-7">
+
+            <h3 class="text-success">${{price}}</h3>
+            <p class="text-muted">{{description}}</p>
         </div>
+
         <div class="col-md-5">
             <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
         </div>
 
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="reviews">
+        <h3>Reviews</h3>
+        <ul>
+            {{#each}}
+            <li><p>{{text}}</p></li>
+            {{else}}
+            <li><p class="text-muted">
+                <em>No reviews yet. Be the first to write on...</em>
+            </p></li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="_old-reviews">
         <h3>Reviews</h3>
         <ul>
             {{#each reviews}}
-                <li>{{text}}</li>
+            <li><p>{{text}}</p></li>
             {{else}}
-                <li><p class="text-muted"><em>No reviews yet!</em></p> </li>
+            <li><p class="text-muted">
+                <em>No reviews yet. Be the first to write on...</em>
+            </p></li>
             {{/each}}
         </ul>
-
     </script>
+
+
 
 </body>
 

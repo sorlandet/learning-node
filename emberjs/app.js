@@ -8,6 +8,7 @@ App.Router.map(function(){
     this.route('about', {path: '/about'});
     this.resource('products', function(){
         this.resource('product', {path: '/:product_id'});
+        this.route('onsale');
     });
 
 });
@@ -44,6 +45,11 @@ App.ProductRoute = Ember.Route.extend({
     }
 });
 
+App.ProductsOnsaleRoute = Ember.Route.extend({
+    model: function(){
+        return this.modelFor('products').filterBy('isOnSale');
+    }
+});
 
 
 
@@ -64,6 +70,26 @@ App.IndexController = Ember.ArrayController.extend({
 App.ProductsController = Ember.ArrayController.extend({
     sortProperties: ['title']
 });
+
+App.ReviewsController = Ember.ArrayController.extend({
+    sortProperties: ['reviewedAt'],
+    sortAscending: false
+});
+
+
+
+// Components
+
+App.ProductDetailsComponent = Ember.Component.extend({
+    tagName: 'li',
+    className: ['row'],
+
+    reviewsCount: Ember.computed.alias('product.reviews.length'),
+    hasReviews: function () {
+        return this.get('reviewsCount') > 0;
+    }.property('reviewsCount')
+});
+
 
 
 
@@ -88,26 +114,78 @@ App.Review = DS.Model.extend({
 
 
 
+// Views
+
+App.ProductView = Ember.View.extend({
+    classNames: ['row'],
+    classNameBindings: ['isOnSale'],
+    isOnSale: Ember.computed.alias('controller.isOnSale')
+});
+
+
+
+
 // Fixtures
 
 App.Product.FIXTURES = [
     {
         id: 1,
-        title: 'Flint',
+        title: 'Audi A6 Allroad',
         description: 'bla bla bla',
         price: 99,
         isOnSale: true,
-        image: 'static/images/1.jpg',
+        image: 'static/images/audi-a6-allroad.jpg',
         reviews: [100, 101]
     },
     {
         id: 2,
-        title: 'AKindling',
+        title: 'Lexus Gs',
+        description: 'bla bla bla',
+        price: 249,
+        isOnSale: true,
+        image: 'static/images/lexus-gs.jpg'
+    },
+    {
+        id: 3,
+        title: 'McLaren P1',
+        description: 'bla bla bla',
+        price: 249,
+        isOnSale: true,
+        image: 'static/images/mclaren-p1.jpg'
+    },
+    {
+        id: 4,
+        title: 'Opel Insignia Country Tourer',
+        description: 'bla bla bla',
+        price: 249,
+        isOnSale: true,
+        image: 'static/images/opel-insignia-country-tourer.jpg'
+    },
+    {
+        id: 5,
+        title: 'Porsche Panamera',
         description: 'bla bla bla',
         price: 249,
         isOnSale: false,
-        image: 'static/images/2.jpg'
+        image: 'static/images/porsche-panamera.jpg'
+    },
+    {
+        id: 6,
+        title: 'Subaru Outback',
+        description: 'bla bla bla',
+        price: 249,
+        isOnSale: false,
+        image: 'static/images/subaru-outback.jpg'
+    },
+    {
+        id: 7,
+        title: 'Volvo XC70',
+        description: 'bla bla bla',
+        price: 249,
+        isOnSale: false,
+        image: 'static/images/volvo-xc70.jpg'
     }
+
 ];
 
 App.Review.FIXTURES = [
