@@ -107,10 +107,6 @@
     <script type="text/x-handlebars" data-template-name="product">
         <h2>{{title}}</h2>
 
-        {{partial 'old-reviews'}}
-
-        {{render 'reviews' reviews}}
-
         <div class="col-md-7">
 
             <h3 class="text-success">${{price}}</h3>
@@ -121,6 +117,20 @@
             <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
         </div>
 
+        {{partial 'old-reviews'}}
+
+        {{render 'reviews' reviews}}
+
+        {{#if isNotReviewed}}
+        <div class="new-review">
+            <h3>Review {{title}}</h3>
+            {{#if review.text}}
+            <p class="text-muted">{{review.text}}</p>
+            {{/if}}
+            {{textarea valueBinding='review.text'}}
+            <button {{action 'createReview'}} class='btn-primary'>Review</button>
+        </div>
+        {{/if}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="reviews">
