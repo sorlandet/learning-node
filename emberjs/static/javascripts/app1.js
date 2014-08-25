@@ -147,7 +147,13 @@ App.ProductView = Ember.View.extend({
     isOnSale: Ember.computed.alias('controller.isOnSale')
 });
 
-
+App.ReviewView = Ember.View.extend({
+    isExpanded: false,
+    classNameBindings: ['isExpanded'],
+    click: function(){
+        this.toggleProperty('isExpanded');
+    }
+});
 
 
 // Fixtures

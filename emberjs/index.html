@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>ember.js</title>
 
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="static/stylesheets/application.css" rel="stylesheet">
 
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -15,13 +16,12 @@
 
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.8/ember-data.min.js"></script>
 
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/javascripts/bootstrap.js"></script>
 
     <!--<script src="bower_components/ember/ember.js"></script>-->
     <!--<script src="bower_components/ember-data/ember-data.js"></script>-->
 
-    <script type="text/javascript" src="app.js"></script>
-
+    <script type="text/javascript" src="static/javascripts/app1.js"></script>
 
 </head>
 
@@ -65,7 +65,7 @@
 
         <img {{bind-attr src='product.image'}} class='img-thumbnail img-rounded' />
         <div class="col-md-7">
-            <h2>{{product.title}}</h2>
+            <h2>{{#link-to 'product' product className='list-group-item'}}{{product.title}}{{/link-to}}</h2>
             <p class="text-muted">{{product.description}}</p>
             <span class="label label-warning">
                 {{#link-to 'products.onsale'}}On sale{{/link-to}}
@@ -137,7 +137,9 @@
         <h3>Reviews</h3>
         <ul>
             {{#each}}
-            <li><p>{{text}}</p></li>
+            {{#view 'App.ReviewView' tag='li'}}
+                <div class="content">{{text}}</div>
+            {{/view}}
             {{else}}
             <li><p class="text-muted">
                 <em>No reviews yet. Be the first to write on...</em>
