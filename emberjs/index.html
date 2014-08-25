@@ -17,6 +17,7 @@
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.8/ember-data.min.js"></script>
 
     <script type="text/javascript" src="static/javascripts/bootstrap.js"></script>
+    <script type="text/javascript" src="static/javascripts/markdown.js"></script>
 
     <!--<script src="bower_components/ember/ember.js"></script>-->
     <!--<script src="bower_components/ember-data/ember-data.js"></script>-->
@@ -105,22 +106,49 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="product">
-        <h2>{{title}}</h2>
 
-        <div class="col-md-7">
+        <ol class="breadcrumb">
+            <li>{{#link-to 'products' }}Store{{/link-to}}</li>
+            <li class="active">{{title}}</li>
+        </ol>
 
-            <h3 class="text-success">${{price}}</h3>
-            <p class="text-muted">{{description}}</p>
+        <div class='row'>
+            <div class='col-sm-7'>
+                <h2>{{title}}</h2>
+
+                <h3 class="text-success">{{price}}</h3>
+                <p class="text-muted">{{description}}</p>
+
+                {{render 'product/reviews' reviews}}
+
+                {{render 'product/reviews/new' this }}
+            </div>
+            <div class='col-sm-5'>
+                <img {{bind-attr src='image'}} class='img-thumbnail img-rounded'/>
+            </div>
         </div>
 
-        <div class="col-md-5">
-            <img {{bind-attr src='image'}} class='img-thumbnail img-rounded' />
-        </div>
+    </script>
 
-        {{partial 'old-reviews'}}
+    <script type="text/x-handlebars" data-template-name="product/reviews">
+        <h3>Reviews</h3>
+        <ul>
+            {{#each}}
+            {{#view 'App.ReviewView' tag='li' length=text.length}}
+                <div class="content">{{markdown text}}</div>
+                <span class="expand text-success">
+                    Read {{#if view.isExpanded}}Less{{else}}More{{/if}}
+                </span>
+            {{/view}}
+            {{else}}
+            <li><p class="text-muted">
+                <em>No reviews yet. Be the first to write on...</em>
+            </p></li>
+            {{/each}}
+        </ul>
+    </script>
 
-        {{render 'reviews' reviews}}
-
+    <script type="text/x-handlebars" data-template-name='product/reviews/new'>
         {{#if isNotReviewed}}
         <div class="new-review">
             <h3>Review {{title}}</h3>
@@ -131,21 +159,6 @@
             <button {{action 'createReview'}} class='btn-primary'>Review</button>
         </div>
         {{/if}}
-    </script>
-
-    <script type="text/x-handlebars" data-template-name="reviews">
-        <h3>Reviews</h3>
-        <ul>
-            {{#each}}
-            {{#view 'App.ReviewView' tag='li'}}
-                <div class="content">{{text}}</div>
-            {{/view}}
-            {{else}}
-            <li><p class="text-muted">
-                <em>No reviews yet. Be the first to write on...</em>
-            </p></li>
-            {{/each}}
-        </ul>
     </script>
 
     <script type="text/x-handlebars" data-template-name="_old-reviews">

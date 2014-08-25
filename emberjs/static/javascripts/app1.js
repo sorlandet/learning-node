@@ -149,11 +149,24 @@ App.ProductView = Ember.View.extend({
 
 App.ReviewView = Ember.View.extend({
     isExpanded: false,
-    classNameBindings: ['isExpanded'],
+    classNameBindings: ['isExpanded', 'readMore'],
     click: function(){
         this.toggleProperty('isExpanded');
-    }
+    },
+    readMore: Ember.computed.gt('length', 140)
+//    readMore: function(){
+//        return this.get('length') > 140;
+//    }.property('length')
 });
+
+
+
+// Helpers
+
+Ember.Handlebars.registerBoundHelper('markdown', function(text){
+   return text;
+});
+
 
 
 // Fixtures
