@@ -164,7 +164,7 @@ App.ReviewView = Ember.View.extend({
 // Helpers
 
 Ember.Handlebars.registerBoundHelper('markdown', function(text){
-   return text;
+   return new Handlebars.SafeString(markdown.toHTML(text));
 });
 
 
